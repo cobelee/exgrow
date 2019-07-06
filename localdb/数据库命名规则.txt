@@ -1,0 +1,11 @@
+数据库命名规则
+
+以下仅为数据库命名样例，实际有的数据库*号标出。
+
+证券品种	内容			数据处理方式	周期		最终数据库名称				数据库说明
+Stock	Market		Raw			D1		StockMarketRawD1			股票行情原始数据，周期为1日
+Stock	Market		Raw			W1		StockMarketRawW1			股票行情原始数据，周期为1星期
+Stock	Market		AdFore		D1		StockMarketAdForeD1		股票行情前复权处理数据，周期为1日
+Stock	Indicator	MA39			D1		StockIndicatorMA39D1		股票指标MA39数据，周期为1日
+Index	Market		Raw			D1		IndexMarketRawD1			指数行情原始数据，周期为1日
+Index	Indicator	MA39			W1		IndexIndicatorMA39W1		指数指标MA39数据，周期为1星期

@@ -1,0 +1,3 @@
+code.string(),date.date(2006-01-02),open.double(),high.double(),low.double(),close.double(),change.double(),volume.double(),money.double(),traded_market_value.double(),market_value.double(),turnover.double(),adjust_price.double(),report_type.string(),report_date.date(2006-01-02),PE_TTM.double(),PS_TTM.double(),PC_TTM.double(),PB.double(),adjust_price_f.double()
+sz300781,2019-06-10,26.180000,26.180000,26.180000,26.180000,0.100000,8300.000000,217294.000000,553000000.000000,2213000000.000000,0.000393,26.180000,,,,,,,26.180000
+sz300781,2019-06-06,19.840000,23.800000,19.840000,23.800000,0.439806,26028.000000,618080.400000,503000000.000000,2012000000.000000,0.001232,23.800000,,,,,,,23.800000

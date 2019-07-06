@@ -1,0 +1,13 @@
+2019-04-16 21:16:27 > StockCodes has be inserted to localdb. Success: 3615, Fail: 0.
+2019-04-19 20:29:22 > Begin to fetch stockCode from aliStock.
+2019-04-19 20:29:48 > Begin to sync to localdb.
+2019-04-19 20:29:58 > StockCodes has be inserted to localdb. Success: 3615, Fail: 0.
+2019-05-02 17:55:06 > Begin to fetch stockCode from aliStock.
+2019-05-02 17:55:18 > Begin to sync to localdb.
+2019-05-02 17:55:24 > StockCodes has be inserted to localdb. Success: 3615, Fail: 0.
+2019-05-05 20:03:30 > Begin to fetch stockCode from aliStock.
+2019-05-05 20:03:39 > Begin to sync to localdb.
+2019-05-05 20:03:46 > StockCodes has be inserted to localdb. Success: 3615, Fail: 0.
+2019-05-09 21:10:01 > Begin to fetch stockCode from aliStock.
+2019-05-09 21:10:08 > Begin to sync to localdb.
+2019-05-09 21:10:11 > StockCodes has be inserted to localdb. Success: 3615, Fail: 0.

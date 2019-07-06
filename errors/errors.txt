@@ -1,0 +1,20 @@
+
+ErrorCode 定义规则
+		系统模块代码	子模块代码	错误代码
+		2位			2位			2位
+起始：	10			00			00
+
+如果没有
+
+[localdb]
+	[dbObject]
+	100000	This line is comment text, cannot be parsed to DBObject.
+	100001	The field count less than 19 in the line, can not be parsed to Stock Daily Data object.
+	100002	Open file error
+	100003	This line text cannot be parsed to Index Daily Data object.
+	100004	The field count less than 9 in the line, can not be parsed to Index Daily Data object.
+	100005	This is not data line, can not be parsed to DBObject.
+	100006	Shell Command exec error.
+	100007	Have not identify dbName.
+	100008	The matrix data is valid.
+	100009	No bars data.
