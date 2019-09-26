@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	// "fmt"
 	"io"
-
 	// "io/ioutil"
 	"os"
 )

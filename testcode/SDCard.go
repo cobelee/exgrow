@@ -10,7 +10,7 @@ func TestSDCard() {
 
 	fmt.Println(card.SDDBarMatrix)
 
-	scanner := localdb.NewBarScanner(card.SDDBarMatrix)
+	scanner := localdb.NewSDDBarScanner(card.SDDBarMatrix)
 
 	fmt.Println(scanner.Bar())
 	fmt.Println("------------------------")

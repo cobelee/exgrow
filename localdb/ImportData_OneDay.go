@@ -3,6 +3,7 @@ package localdb
 
 import (
 	"bufio"
+	o "exgrow/localdb/object"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -33,7 +34,7 @@ func ImportDD_FromDir() {
 			fmt.Printf("Importing file %s...", filePath)
 
 			if IsSDD_File(filePath) {
-				err := ImportFromCSV(filePath, parseToDBObject)
+				err := ImportFromCSV(filePath, o.ParseToDBObject)
 
 				if err == nil {
 					// fmt.Fprintf(os.Stdout, "Handled %v csv file(s). Stock Daily Data is imported.\n", sddCount)
@@ -41,7 +42,7 @@ func ImportDD_FromDir() {
 			}
 
 			if IsIDD_File(filePath) {
-				err := ImportFromCSV(filePath, parseToDBObject)
+				err := ImportFromCSV(filePath, o.ParseToDBObject)
 
 				if err == nil {
 					// fmt.Fprintf(os.Stdout, "Handled %v csv file(s). Index Daily Data is imported.\n", sddCount)

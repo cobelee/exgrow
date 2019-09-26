@@ -7,6 +7,7 @@ package localdb
 import (
 	"bufio"
 	"exgrow/alistock"
+	"exgrow/localdb/dbhelp"
 	"fmt"
 	"os"
 	"time"
@@ -19,7 +20,7 @@ func SyncStockCode() {
 
 	var err error
 	var session *mgo.Session
-	session = GetSession() // 初始化mgo.Session 并获取Session
+	session = dbhelp.GetSession() // 初始化mgo.Session 并获取Session
 
 	c := session.DB("aliStockDB").C("stock_code")
 

@@ -1,0 +1,21 @@
+#This file as Config struct
+
+title="数据库配置"
+
+#This block as DBName struct
+[dbName]
+StockMarketRawD1 = "StockMarketRawD1"		# 股票行情原始数据，周期为1日
+StockMarketW1 = "StockMarketW1"		# 股票行情原始数据，周期为1个星期
+StockMarketM1 = "StockMarketM1"		# 股票行情原始数据，周期为1个月
+StockMarketQ1 = "StockMarketQ1"		# 股票行情原始数据，周期为1个季度
+StockMarketY1 = "StockMarketY1"		# 股票行情原始数据，周期为1个年
+IndexMarketRawD1 = "IndexMarketRawD1" 	# 指数行情原始数据，周期为1日
+IndexMarketW1 = "IndexMarketW1"		# 指数行情原始数据，周期为1星期
+IndexMarketM1 = "IndexMarketM1"		# 指数行情原始数据，周期为1个月
+IndexMarketQ1 = "IndexMarketQ1"		# 指数行情原始数据，周期为1个季度
+IndexMarketY1 = "IndexMarketY1"		# 指数行情原始数据，周期为1个年
+IndicationD1 = "IndicationD1" 	# 指标数据，周期为1日
+IndicationW1 = "IndicationW1"		# 指标数据，周期为1星期
+IndicationM1 = "IndicationM1"		# 指标数据，周期为1个月
+IndicationQ1 = "IndicationQ1"		# 指标数据，周期为1个季度
+IndicationY1 = "IndicationY1"		# 指标数据，周期为1个年

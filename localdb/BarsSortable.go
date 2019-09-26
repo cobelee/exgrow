@@ -1,7 +1,11 @@
 // BarsSortable
 package localdb
 
-type SortableBars []SDDBar
+import (
+	o "exgrow/localdb/object"
+)
+
+type SortableBars []o.SDDBar
 
 // 获取数组总长
 func (b SortableBars) Len() int {

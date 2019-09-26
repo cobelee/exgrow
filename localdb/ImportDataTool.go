@@ -8,6 +8,10 @@ package localdb
 import (
 	"bufio"
 	"exgrow/errors"
+	c "exgrow/localdb/config"
+	"exgrow/localdb/dbhelp"
+	o "exgrow/localdb/object"
+	t "exgrow/localdb/tools"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -44,12 +48,12 @@ func ImportSHD_FromDir() {
 			path := dir + v.Name()
 			// go func() {
 			// 	runtime.Gosched()
-			// 	e := ImportFromCSV(path, parseToDBObject)
+			// 	e := ImportFromCSV(path, o.ParseToDBObject)
 			// 	if e == nil {
 			// 		c <- 1
 			// 	}
 			// }()
-			ImportFromCSV(path, parseToDBObject)
+			ImportFromCSV(path, o.ParseToDBObject)
 			fmt.Fprintf(os.Stdout, "Importing Stock History Data from %v. (%d / %d)\r", v.Name(), i+1, filesTotal)
 		}
 	}
@@ -74,7 +78,7 @@ func ImportSHD_FromDir() {
 	存入mongo数据库。
 	数据库名称为：StockMarketRawD1，
 */
-func ImportFromCSV(filePath string, hookfn func([]byte) (DBObject, error)) error {
+func ImportFromCSV(filePath string, hookfn func([]byte) (o.DBDoc, error)) error {
 	f, e := os.Open(filePath)
 	if e != nil {
 		e1 := errors.NewError("100002", "Open file error:"+e.Error())
@@ -93,7 +97,7 @@ func ImportFromCSV(filePath string, hookfn func([]byte) (DBObject, error)) error
 			break
 		}
 
-		obj, e := parseToDBObject(line)
+		obj, e := o.ParseToDBObject(line)
 		if e == nil {
 			SaveObjToC(obj) // obj 实现了DBObject接口
 		}
@@ -104,9 +108,9 @@ func ImportFromCSV(filePath string, hookfn func([]byte) (DBObject, error)) error
 // SaveObjToC 将Obj数据保存到mongo数据库
 //
 // @param  object DBObject
-func SaveObjToC(obj DBObject) error {
+func SaveObjToC(obj o.DBDoc) error {
 	var session *mgo.Session
-	session = GetSession()
+	session = dbhelp.GetSession()
 	dbName := obj.GetDBName()
 	if dbName == "" {
 		err := errors.NewError("100007", "Have not identify dbName.")
@@ -141,7 +145,7 @@ func TypifyHeaderLine(csvFile string) error {
 
 		// 针对未曾类型化的字段标题，进行类型化处理。
 		if i == 1 && strings.Contains(line, "code") && !strings.Contains(line, "code.string()") {
-			newLine := TypifyFields(line)
+			newLine := o.TypifyFields(line)
 			strArray = append(strArray, newLine)
 		} else {
 			strArray = append(strArray, line)
@@ -203,7 +207,7 @@ func TypifyHeaderLine_FromDir() {
 func MongoImportSHD_FromDir() {
 	var (
 		dir    string = "data/stock_h_data/"
-		dbName string = DBConfig.DBName.StockMarketRawD1
+		dbName string = c.DBConfig.DBName.StockMarketRawD1
 	)
 	dir_list, e := ioutil.ReadDir(dir)
 	if e != nil {
@@ -229,7 +233,7 @@ func MongoImportSHD_FromDir() {
 func MongoImportIHD_FromDir() {
 	var (
 		dir    string = "data/index_h_data/"
-		dbName string = DBConfig.DBName.IndexMarketRawD1
+		dbName string = c.DBConfig.DBName.IndexMarketRawD1
 	)
 
 	if dbName == "" {
@@ -260,7 +264,7 @@ func MongoImport_FromCSV(csvFileWithPath string, dbName string) error {
 		err    error
 		cmd    *exec.Cmd
 
-		cName string = GetFileNameOnly(csvFileWithPath) // 表名称
+		cName string = t.GetFileNameOnly(csvFileWithPath) // 表名称
 
 		arg1 string = "--db=" + dbName                                     // 指定数据库名称
 		arg2 string = "--collection=" + cName                              // 指定集合名称

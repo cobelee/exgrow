@@ -8,7 +8,7 @@ import (
 
 func TestSort() {
 	card := localdb.CreateSDCard("sh600000")
-	scanner := localdb.NewBarScanner(card.SDDBarMatrix)
+	scanner := localdb.NewSDDBarScanner(card.SDDBarMatrix)
 
 	scanner.ScanAWeek()
 	scanner.ScanAWeek()

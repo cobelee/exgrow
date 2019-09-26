@@ -2,9 +2,9 @@ package alistock
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
-	"fmt"
 )
 
 type StockCode struct {
@@ -21,7 +21,7 @@ type StockCode struct {
 	Code         string `json:"STOCK_CODE"`
 }
 
-func GetStockMap() map[string]StockCode{
+func GetStockMap() map[string]StockCode {
 
 	client := &http.Client{}
 	req, _ := http.NewRequest("GET", "http://istock.market.alicloudapi.com/ai_fintech_knowledge/ai_stock_code", nil)
@@ -29,26 +29,25 @@ func GetStockMap() map[string]StockCode{
 
 	resp, _ := client.Do(req)
 
-	defer resp.Body.Close()		// The body maybe is nil, can't be read.
+	defer resp.Body.Close() // The body maybe is nil, can't be read.
 	var mapStock map[string]StockCode
 	if resp.StatusCode == 200 {
-//		body, _ := ioutil.ReadAll(resp.Body)
-		
+		//		body, _ := ioutil.ReadAll(resp.Body)
+
 		decoder := json.NewDecoder(resp.Body)
 
 		for {
 			err := decoder.Decode(&mapStock)
-			if err == io.EOF{
+			if err == io.EOF {
 				break
 			}
 
-			if err != nil{
+			if err != nil {
 				fmt.Println("Error decoding JSON:", err)
 				return nil
 			}
 		}
 	}
-
 
 	return mapStock
 

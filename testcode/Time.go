@@ -6,7 +6,7 @@ import (
 )
 
 // 演示如何将时间字符串Parse为ISOTime时间类型
-func testTime() {
+func TestTime() {
 	strTime := "2019-01-02"
 	t, e := time.Parse("2006-01-02", strTime)
 	if e != nil {
