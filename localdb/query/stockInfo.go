@@ -36,13 +36,13 @@ func GetSDDBar(sc string, pt string, t time.Time) o.SDDBar {
 	case "D":
 		dbName = c.DBConfig.DBName.StockMarketRawD1
 	case "W":
-		dbName = c.DBConfig.DBName.StockMarketW1
+		dbName = c.DBConfig.DBName.StockW1
 	case "M":
-		dbName = c.DBConfig.DBName.StockMarketM1
+		dbName = c.DBConfig.DBName.StockM1
 	case "Q":
-		dbName = c.DBConfig.DBName.StockMarketQ1
+		dbName = c.DBConfig.DBName.StockQ1
 	case "Y":
-		dbName = c.DBConfig.DBName.StockMarketY1
+		dbName = c.DBConfig.DBName.StockY1
 	default:
 		dbName = c.DBConfig.DBName.StockMarketRawD1
 	}

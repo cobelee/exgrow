@@ -3,7 +3,7 @@ package localdb
 
 import (
 	"bufio"
-	o "exgrow/localdb/object"
+	h "exgrow/localdb/dbhelp"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -14,8 +14,8 @@ import (
 	ImportDD_FromDir() 导入 证券 以及 指数 单日日线数据
 
 	将来自于“预测者”网站（www.yucezhe.com）的单日日线数据导入mongo数据库。
-	将单日日线数据压缩文件包解压到exgrow/csv目录下，如 2015-04-14 data.csv等文件。
-	执行 exgrow db idd 命令，可将 exgrow/csv 目录下的 csv 数据文件中的数据导入到mongo数据库中。
+	将单日日线数据压缩文件包解压到exgrow/data/daily_data/目录下，如 2015-04-14 data.csv等文件。
+	执行 exgrow db idd 命令，可将该目录下的 csv 数据文件中的数据导入到mongo数据库中。
 	该命令能够自动识别是否为目标数据文件的类型，数据包括证券、指数的日线数据。
 */
 func ImportDD_FromDir() {
@@ -31,18 +31,18 @@ func ImportDD_FromDir() {
 		if v.IsDir() == false {
 			filePath := dir + v.Name()
 
-			fmt.Printf("Importing file %s...", filePath)
+			fmt.Printf("Importing %s...", filePath)
 
-			if IsSDD_File(filePath) {
-				err := ImportFromCSV(filePath, o.ParseToDBObject)
+			if IsStock_File(filePath) {
+				err := ImportFromCSV(filePath, h.ParseToDBObject)
 
 				if err == nil {
 					// fmt.Fprintf(os.Stdout, "Handled %v csv file(s). Stock Daily Data is imported.\n", sddCount)
 				}
 			}
 
-			if IsIDD_File(filePath) {
-				err := ImportFromCSV(filePath, o.ParseToDBObject)
+			if IsIndex_File(filePath) {
+				err := ImportFromCSV(filePath, h.ParseToDBObject)
 
 				if err == nil {
 					// fmt.Fprintf(os.Stdout, "Handled %v csv file(s). Index Daily Data is imported.\n", sddCount)
@@ -60,7 +60,7 @@ func ImportDD_FromDir() {
 
    返回 true | false, true表示指定文件是证券单日日线数据文件。
 */
-func IsSDD_File(filePath string) bool {
+func IsStock_File(filePath string) bool {
 	var isSDD bool = false
 
 	f, e := os.Open(filePath)
@@ -74,7 +74,7 @@ func IsSDD_File(filePath string) bool {
 	var indexLine int = 0
 	var includeCodeInFirstLine bool = false  // 第一行包含code
 	var includeIndexInFirstLine bool = false // 第一行包含Index
-	var isLen20InFirstLine bool = false      // 第一行有19个字段
+	var isLen20InFirstLine bool = false      // 第一行有20个字段
 	var isDiffInLine23 bool = false          // 第二行和第三行的第一个字段不同
 	var fwInLine2 string                     // 第二行的第一个字段
 	var fwInLine3 string                     // 第三行的第一个字段
@@ -138,7 +138,7 @@ func IsSDD_File(filePath string) bool {
 
 	返回 true | false, true表示指定文件是 指数 单日日线数据文件。
 */
-func IsIDD_File(filePath string) bool {
+func IsIndex_File(filePath string) bool {
 	var isIndexDD bool = false
 
 	f, e := os.Open(filePath)

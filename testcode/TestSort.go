@@ -2,12 +2,14 @@ package testcode
 
 import (
 	"exgrow/localdb"
+	h "exgrow/localdb/dbhelp"
+	m "exgrow/localdb/maintain"
 	"fmt"
 	"sort"
 )
 
 func TestSort() {
-	card := localdb.CreateSDCard("sh600000")
+	card := h.CreateSDCard("sh600000")
 	scanner := localdb.NewSDDBarScanner(card.SDDBarMatrix)
 
 	scanner.ScanAWeek()
@@ -25,7 +27,7 @@ func TestSort() {
 	}
 	fmt.Println("----------------------------")
 
-	sort.Sort(localdb.SortableBars(scanner.BarBuffer))
+	sort.Sort(m.SortableBars(scanner.BarBuffer))
 	matrix = scanner.BarBuffer
 	for i, m := range matrix {
 		// year, week := m.date.ISOWeek()

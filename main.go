@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"exgrow/localdb"
+	c "exgrow/clicmd"
 	_ "exgrow/localdb/query"
 	_ "exgrow/localdb/test"
 	"exgrow/testcode"
@@ -39,141 +39,6 @@ func main() {
 			},
 		},
 		{
-			Name:     "db",
-			Usage:    "证券市场基础数据维护。",
-			Category: "数据库维护",
-			Subcommands: []cli.Command{
-				{
-					Name:    "syncsc",
-					Aliases: []string{"ssc"},
-					Usage:   "将证券品种的基础代码信息，从阿里云同步到本地数据库。",
-					Action: func(c *cli.Context) error {
-						fmt.Println("正在同步证券品种代码，请稍候...")
-						localdb.SyncStockCode()
-						return nil
-					},
-				},
-				{
-					Name:    "readfiles",
-					Aliases: []string{"ls"},
-					Usage:   "读取 /data/ 目录下的所有文件。",
-					Action: func(c *cli.Context) error {
-						testcode.ReadFiles()
-						return nil
-					},
-				},
-				{
-					Name:    "importHistoryData",
-					Aliases: []string{"ihd"},
-					Usage:   "将来自于“预测者”网站（www.yucezhe.com）的证券历史日线数据导入mongo数据库。",
-					Action: func(c *cli.Context) error {
-						localdb.ImportSHD_FromDir()
-						var str string
-						fmt.Scan(&str)
-						return nil
-					},
-				},
-				{
-					Name:    "importDailyData",
-					Aliases: []string{"idd"},
-					Usage:   "将来自于“预测者”网站（www.yucezhe.com）的单日日线数据导入mongo数据库。\n 包括证券以及指数数据文件。",
-					Action: func(c *cli.Context) error {
-						localdb.ImportDD_FromDir()
-						return nil
-					},
-				},
-				{
-					Name:    "TypifyHeaderLine",
-					Aliases: []string{"thl"},
-					Usage:   "预处理“预测者”网站（www.yucezhe.com）的证券历史日线数据。\n对首行Fields进行格式化。",
-					Action: func(c *cli.Context) error {
-						localdb.TypifyHeaderLine_FromDir()
-						return nil
-					},
-				},
-				{
-					Name:    "MongoImportStock",
-					Aliases: []string{"mis"},
-					Usage:   "利用MongoImport工具，将“预测者”网站（www.yucezhe.com）的证券历史日线数据导入数据库。",
-					Action: func(c *cli.Context) error {
-						localdb.MongoImportSHD_FromDir()
-						return nil
-					},
-				},
-				{
-					Name:    "MongoImportIndex",
-					Aliases: []string{"mii"},
-					Usage:   "利用MongoImport工具，将“预测者”网站（www.yucezhe.com）的指数历史日线数据导入数据库。",
-					Action: func(c *cli.Context) error {
-						localdb.MongoImportIHD_FromDir()
-						return nil
-					},
-				},
-				{
-					Name:    "sync",
-					Aliases: []string{"sync"},
-					Usage:   "Synchronize stock bar database of different period.",
-					Action: func(c *cli.Context) error {
-						switch c.String("p") {
-						case "w", "W", "week":
-							localdb.SyncToSWdb()
-
-						case "m", "M", "month":
-							localdb.SyncToSMdb()
-
-						case "q", "Q", "quarter":
-							localdb.SyncToSQdb()
-
-						case "y", "Y", "year":
-							fmt.Println("the flag p value is ", c.String("p"))
-
-						default:
-							fmt.Print("    Wrong value of flag p.\n    the available value is w, m, q or y.\n")
-						}
-
-						return nil
-					},
-					Flags: []cli.Flag{
-						cli.StringFlag{
-							Name:  "period,p",
-							Value: "",
-							Usage: `根据日线数据库，同步至周线、月线、季线数据库。
-								W, week		生成周线数据库
-								M, month		生成月线数据库
-								Q, quarter	生成季线数据库`,
-						},
-					},
-				},
-				{
-					Name:    "MongoImportIndex",
-					Aliases: []string{"mii"},
-					Usage:   "利用MongoImport工具，将“预测者”网站（www.yucezhe.com）的指数历史日线数据导入数据库。",
-					Action: func(c *cli.Context) error {
-						localdb.MongoImportIHD_FromDir()
-						return nil
-					},
-				},
-				{
-					Name:    "GenerateIndicationD1",
-					Aliases: []string{"gid"},
-					Usage:   "生成 IndicationD1 数据库",
-					Action: func(c *cli.Context) error {
-						localdb.GenerateIndicationD1()
-						return nil
-					},
-				},
-				{
-					Name:    "ShowIndication",
-					Aliases: []string{"si"},
-					Usage:   "显示 Indication 中的集合名",
-					Action: func(c *cli.Context) error {
-						localdb.FillIndices()
-						return nil
-					},
-				},
-			},
-		},
-		{
 			Name:     "query",
 			Usage:    "查询证券市场基础数据。",
 			Category: "数据库查询",
@@ -183,33 +48,37 @@ func main() {
 					Aliases: []string{"stock"},
 					Usage:   "测试",
 					Action: func(c *cli.Context) error {
-						localdb.FillEMA("sh600000")
+
 						return nil
 					},
 				},
 			},
 		},
 		{
-			Name:     "showday",
-			Aliases:  []string{"sd"},
+			Name:     "testtime",
+			Aliases:  []string{"tt"},
 			Usage:    "测试命令，显示当前星期数.",
-			Category: "Test",
-			Action: func(c *cli.Context) error {
-				testcode.ShowDay()
-				return nil
-			},
-		},
-		{
-			Name:     "testTime",
-			Aliases:  []string{"testTime"},
-			Usage:    "测试命令，将用户对象更新到mongo数据库.",
 			Category: "Test",
 			Action: func(c *cli.Context) error {
 				testcode.TestTime()
 				return nil
 			},
 		},
+		{
+			Name:     "test",
+			Aliases:  []string{"test"},
+			Usage:    "测试命令，将用户对象更新到mongo数据库.",
+			Category: "Test",
+			Action: func(c *cli.Context) error {
+				testcode.TestSDCard()
+				return nil
+			},
+		},
 	}
+
+	// 添加其它控制台命令
+	app.Commands = append(app.Commands, c.CmdLocaldb)
+	app.Commands = append(app.Commands, c.CmdMarket)
 
 	app.Action = func(c *cli.Context) {
 

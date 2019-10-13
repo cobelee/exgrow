@@ -29,17 +29,17 @@ func GetIndicBar(sc string, pt string, d time.Time) o.IndicBar {
 	var dbName string
 	switch pt {
 	case "D":
-		dbName = c.DBConfig.DBName.IndicationD1
+		dbName = c.DBConfig.DBName.StockD1
 	case "W":
-		dbName = c.DBConfig.DBName.IndicationW1
+		dbName = c.DBConfig.DBName.StockW1
 	case "M":
-		dbName = c.DBConfig.DBName.IndicationM1
+		dbName = c.DBConfig.DBName.StockM1
 	case "Q":
-		dbName = c.DBConfig.DBName.IndicationQ1
+		dbName = c.DBConfig.DBName.StockQ1
 	case "Y":
-		dbName = c.DBConfig.DBName.IndicationY1
+		dbName = c.DBConfig.DBName.StockY1
 	default:
-		dbName = c.DBConfig.DBName.IndicationD1
+		dbName = c.DBConfig.DBName.StockD1
 	}
 	c := session.DB(dbName).C(sc)
 	var bar o.IndicBar

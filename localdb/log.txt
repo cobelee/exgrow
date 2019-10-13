@@ -11,3 +11,6 @@
 2019-05-09 21:10:01 > Begin to fetch stockCode from aliStock.
 2019-05-09 21:10:08 > Begin to sync to localdb.
 2019-05-09 21:10:11 > StockCodes has be inserted to localdb. Success: 3615, Fail: 0.
+2019-09-28 14:17:30 > Begin to fetch stockCode from aliStock.
+2019-09-28 14:17:37 > Begin to sync to localdb.
+2019-09-28 14:17:41 > StockCodes has be inserted to localdb. Success: 3615, Fail: 0.

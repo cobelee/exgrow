@@ -9,7 +9,7 @@ import (
 	"bufio"
 	"exgrow/errors"
 	c "exgrow/localdb/config"
-	"exgrow/localdb/dbhelp"
+	h "exgrow/localdb/dbhelp"
 	o "exgrow/localdb/object"
 	t "exgrow/localdb/tools"
 	"fmt"
@@ -18,11 +18,6 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-
-	// "runtime"
-
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
 /*
@@ -53,7 +48,7 @@ func ImportSHD_FromDir() {
 			// 		c <- 1
 			// 	}
 			// }()
-			ImportFromCSV(path, o.ParseToDBObject)
+			ImportFromCSV(path, h.ParseToDBObject)
 			fmt.Fprintf(os.Stdout, "Importing Stock History Data from %v. (%d / %d)\r", v.Name(), i+1, filesTotal)
 		}
 	}
@@ -78,7 +73,7 @@ func ImportSHD_FromDir() {
 	存入mongo数据库。
 	数据库名称为：StockMarketRawD1，
 */
-func ImportFromCSV(filePath string, hookfn func([]byte) (o.DBDoc, error)) error {
+func ImportFromCSV(filePath string, hookfn func([]byte) (h.DBDoc, error)) error {
 	f, e := os.Open(filePath)
 	if e != nil {
 		e1 := errors.NewError("100002", "Open file error:"+e.Error())
@@ -97,30 +92,16 @@ func ImportFromCSV(filePath string, hookfn func([]byte) (o.DBDoc, error)) error 
 			break
 		}
 
-		obj, e := o.ParseToDBObject(line)
+		obj, e := h.ParseToDBObject(line)
 		if e == nil {
-			SaveObjToC(obj) // obj 实现了DBObject接口
+			h.SaveObjToC(obj) // obj 实现了DBObject接口
+			if v, ok := obj.(o.SDBar); ok {
+				indicBar := o.NewIndicBarFromSDBar(v)
+				h.SaveObjToC(&indicBar)
+			}
+
 		}
 	}
-	return nil
-}
-
-// SaveObjToC 将Obj数据保存到mongo数据库
-//
-// @param  object DBObject
-func SaveObjToC(obj o.DBDoc) error {
-	var session *mgo.Session
-	session = dbhelp.GetSession()
-	dbName := obj.GetDBName()
-	if dbName == "" {
-		err := errors.NewError("100007", "Have not identify dbName.")
-		return &err
-	}
-	cName := obj.GetCollectionName()
-	c := session.DB(dbName).C(cName)
-
-	seletor := bson.M{"date": obj.MajorKey()}
-	c.Upsert(seletor, obj) // 采用upsert防止重复插入。
 	return nil
 }
 

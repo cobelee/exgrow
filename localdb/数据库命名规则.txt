@@ -9,3 +9,44 @@ Stock	Market		AdFore		D1		StockMarketAdForeD1		股票行情前复权处理数据
 Stock	Indicator	MA39			D1		StockIndicatorMA39D1		股票指标MA39数据，周期为1日
 Index	Market		Raw			D1		IndexMarketRawD1			指数行情原始数据，周期为1日
 Index	Indicator	MA39			W1		IndexIndicatorMA39W1		指数指标MA39数据，周期为1星期
+
+
+数据库名及关系
+
+StockMarketRawD1			证券行情原始数据，周期为1日。这是以下各周期证券数据库的数据来源。
+
+StockD1 					# 证券行情（后复权）及指标数据，周期为1日
+StockW1					# 证券行情（后复权）及指标数据，周期为1个星期
+StockM1					# 证券行情（后复权）及指标数据，周期为1个月
+StockQ1					# 证券行情（后复权）及指标数据，周期为1个季度
+StockY1					# 证券行情（后复权）及指标数据，周期为1个年
+
+IndexMarketRawD1			# 指数行情原始数据，周期为1日。这是以下各周期指数数据库的数据来源。
+IndexD1					# 指数行情原始数据，周期为1日
+IndexW1					# 指数行情原始数据，周期为1星期
+IndexM1					# 指数行情原始数据，周期为1个月
+IndexQ1					# 指数行情原始数据，周期为1个季度
+IndexY1					# 指数行情原始数据，周期为1个年
+
+
+
+----------------------- 数据库生成及依赖关系 ------------------------------
+
+[StockMarketRawD1]  _______ GenerateStockD1() ________  
+                      |                               |
+                      |____ IncreaseStockD1() ________|_____>>  [StockD1]
+                    
+
+
+[StockD1]  ______ CompleteSync() _______
+              |                         |
+              |__ IncreaseSync() _______|________>> [StockW1]
+                                            |
+                                            |____>> [StockM1]
+                                            
+                                            
+[StockM1]  ______ CompleteSync() _______
+              |                         |
+              |__ IncreaseSync() _______|________>> [StockQ1]
+                                            |
+                                            |____>> [StockY1]

@@ -2,12 +2,13 @@ package testcode
 
 import (
 	"exgrow/localdb"
+	m "exgrow/localdb/maintain"
 	"fmt"
 )
 
 func TestScan() {
 	card := localdb.CreateIdcCard("sh600000")
-	scanner := localdb.NewBarsScanner(card.IdcBarMatrix)
+	scanner := m.NewBarsScanner(card.IdcBarMatrix)
 
 	// for i := 0; i < len(card.Matrix); i++ {
 	// 	fmt.Println("%s  %v", card.Matrix[i].Date, card.Matrix[i].Close)

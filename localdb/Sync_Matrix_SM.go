@@ -2,7 +2,8 @@ package localdb
 
 import (
 	c "exgrow/localdb/config"
-	"exgrow/localdb/dbhelp"
+	h "exgrow/localdb/dbhelp"
+	m "exgrow/localdb/maintain"
 	o "exgrow/localdb/object"
 	"fmt"
 )
@@ -16,7 +17,7 @@ Steps
 func SyncToSMdb() {
 
 	dbName := c.DBConfig.DBName.StockMarketRawD1
-	names, _ := dbhelp.GetCollectionNames(dbName)
+	names, _ := h.GetCollectionNames(dbName)
 	cCount := len(names)
 
 	for i, name := range names {
@@ -34,20 +35,17 @@ Steps
 3. merge daily-bars to weekly-bar
 */
 func MergeDMtoMM(code string) {
-	card := CreateSDCard(code)
-	scanner := NewBarsScanner(card.SDDBarMatrix)
-	var sddBarArray []o.SDDBar
-	sddBarArray = []o.SDDBar(card.SDDBarMatrix)
+	card := h.CreateSDCard(code)
+	scanner := m.NewBarsScanner(card.SDDBarMatrix)
+	// var sddBarArray []o.SDDBar
+	// sddBarArray = []o.SDDBar(card.SDDBarMatrix)
 	for scanner.ScanAMonth() {
 		var barBuffer []o.SDDBar
-		for _, index := range scanner.BarIndexBuffer {
-			sddBar := sddBarArray[index]
-			barBuffer = append(barBuffer, sddBar)
-		}
+		barBuffer = card.SDDBarMatrix[scanner.BufferBoards.LeftLimit:scanner.BufferBoards.RightLimit]
 
-		if merger, e := NewBarsMerger(sddBarArray); e == nil {
+		if merger, e := m.NewBarsMerger(barBuffer); e == nil {
 			wb := merger.CreateLongPeriodBar("M")
-			SaveObjToC(&wb)
+			h.SaveObjToC(&wb)
 		}
 	}
 }

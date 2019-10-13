@@ -11,21 +11,19 @@ type config struct {
 
 //订制Database块
 type DBName struct {
+	Analysis         string
 	StockMarketRawD1 string
-	StockMarketW1    string
-	StockMarketM1    string
-	StockMarketQ1    string
-	StockMarketY1    string
+	StockD1          string
+	StockW1          string
+	StockM1          string
+	StockQ1          string
+	StockY1          string
 	IndexMarketRawD1 string
-	IndexMarketW1    string
-	IndexMarketM1    string
-	IndexMarketQ1    string
-	IndexMarketY1    string
-	IndicationD1     string
-	IndicationW1     string
-	IndicationM1     string
-	IndicationQ1     string
-	IndicationY1     string
+	IndexD1          string
+	IndexW1          string
+	IndexM1          string
+	IndexQ1          string
+	IndexY1          string
 }
 
 // 实例化后的数据库配置信息对象

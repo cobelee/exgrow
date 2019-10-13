@@ -1,22 +1,30 @@
 package testcode
 
 import (
-	"exgrow/localdb"
+	_ "exgrow/localdb"
+	c "exgrow/localdb/config"
+	h "exgrow/localdb/dbhelp"
+	o "exgrow/localdb/object"
 	"fmt"
 )
 
 func TestSDCard() {
-	card := localdb.CreateSDCard("sh600000")
+	card := h.CreateStockCard("sh600000", c.Period_D)
+	var slice1, slice2 o.IndicBarArray
+	slice1 = card.IndicBarMatrix[0:20]
 
-	fmt.Println(card.SDDBarMatrix)
+	for i, s := range slice1 {
+		fmt.Printf("%v  %v\n", i, s)
+	}
+	fmt.Println()
 
-	scanner := localdb.NewSDDBarScanner(card.SDDBarMatrix)
+	slice2 = slice1.RemoveLast(2)
 
-	fmt.Println(scanner.Bar())
-	fmt.Println("------------------------")
-	scanner.Scan()
-	fmt.Println(scanner.Bar())
-	fmt.Println("------------------------")
-	scanner.ScanAWeek()
-	fmt.Println(scanner.BarBuffer)
+	for i, s := range slice2 {
+		fmt.Printf("%v  %v\n", i, s)
+	}
+
+	fmt.Println()
+
+	fmt.Println(slice2.GetLastDate())
 }

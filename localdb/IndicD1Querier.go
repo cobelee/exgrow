@@ -96,7 +96,7 @@ func CreateIdcCard(longCode string) IdcCard {
 	var card IdcCard
 	card.LongCode = longCode                           // 初始化长代码
 	card.ShortCode = strings.TrimLeft(longCode, "shz") // 初始化短代码
-	dbName := c.DBConfig.DBName.IndicationD1
+	dbName := c.DBConfig.DBName.StockD1
 
 	var idcArray []o.IndicBar
 	dbhelp.GetCollectionData(dbName, longCode, &idcArray)
