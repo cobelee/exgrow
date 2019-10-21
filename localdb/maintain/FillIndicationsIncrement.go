@@ -64,7 +64,6 @@ func SmartSaveIndicBarArray(indicArray o.IndicBarArray, omArray []o.ObjectMonito
 	// })
 
 	for i := 0; i < length; i++ {
-		fmt.Printf("%s %v %v %s\n", indicArray[i].Code, indicArray[i].Date, omArray[i].Date, indicArray[i].Code)
 		if indicArray[i].Date.Equal(omArray[i].Date) && omArray[i].Modified {
 			indicBar := indicArray[i]
 			h.SaveObjToC(&indicBar)

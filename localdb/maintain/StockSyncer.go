@@ -8,6 +8,26 @@ import (
 	"time"
 )
 
+func SyncFromStockD1(pt string) {
+	switch pt {
+	case "w", "W", "week":
+		BeginSync(o.DTW)
+	case "m", "M", "month":
+		BeginSync(o.DTM)
+	case "q", "Q", "quarter":
+		BeginSync(o.MTQ)
+	case "y", "Y", "year":
+		BeginSync(o.MTY)
+	case "all", "All", "ALL":
+		BeginSync(o.DTW)
+		BeginSync(o.DTM)
+		BeginSync(o.MTQ)
+		BeginSync(o.MTY)
+	default:
+		fmt.Print("    Wrong value of flag p.\n    the available value is w, m, q or y.\n")
+	}
+}
+
 /* Sync Stock database base on syncType
 
    Note the order of synchronization in the production environment.

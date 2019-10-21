@@ -4,7 +4,6 @@ import (
 	"exgrow/localdb"
 	k "exgrow/localdb/analysis/keltner"
 	m "exgrow/localdb/maintain"
-	o "exgrow/localdb/object"
 	"exgrow/testcode"
 	"fmt"
 	"time"
@@ -110,24 +109,9 @@ func init() {
 				Name:    "sync",
 				Aliases: []string{"sync"},
 				Usage: `Synchronize base-info from StockD1 to other period-database. 
-						Flag: --period, -p`,
+						Flag: --period, -p		value could be: w | m | q | y | all`,
 				Action: func(c *cli.Context) error {
-					switch c.String("p") {
-					case "w", "W", "week":
-						m.BeginSync(o.DTW)
-
-					case "m", "M", "month":
-						m.BeginSync(o.DTM)
-
-					case "q", "Q", "quarter":
-						m.BeginSync(o.MTQ)
-					case "y", "Y", "year":
-						m.BeginSync(o.MTY)
-
-					default:
-						fmt.Print("    Wrong value of flag p.\n    the available value is w, m, q or y.\n")
-					}
-
+					m.SyncFromStockD1(c.String("p"))
 					return nil
 				},
 				Flags: []cli.Flag{
@@ -138,7 +122,9 @@ func init() {
 								W, week		生成周线数据库
 								M, month		生成月线数据库
 								Q, quarter	生成季线数据库
-								Y, year      生成年线数据库`,
+								Y, year      生成年线数据库
+								all			同步至周、月、季、年数据库
+								`,
 					},
 				},
 			},
